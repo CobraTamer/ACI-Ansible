@@ -1,0 +1,19 @@
+- name: Limited ACI configuration
+  hosts: apic
+  connection: local
+  gather_facts: False
+  vars:
+    aci_login: &aci_login
+      hostname: '{{ inventory_hostname }}'
+      username: '{{ username }}'
+      password: '{{ password }}' 
+      validate_certs: False     
+  
+  tasks:
+    - name: Task - Create Tenant
+      aci_tenant:
+        <<: *aci_login
+        state: "present"
+        tenant: 'CiscoACIYTDemo'
+        descr: "Tenant Created Using Ansible"
+      tags: tenant, vrf, bd, filter, contract, app, epg
